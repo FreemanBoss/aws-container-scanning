@@ -1,0 +1,83 @@
+# Development Environment Configuration
+
+# AWS Configuration
+aws_region  = "us-east-1"
+environment = "dev"
+
+# Project Settings
+project_name = "container-scanning"
+
+# ECR Repositories
+ecr_repositories = [
+  {
+    name                 = "sample-app"
+    image_tag_mutability = "MUTABLE"
+    scan_on_push         = true
+    encryption_type      = "KMS"
+  },
+  {
+    name                 = "web-frontend"
+    image_tag_mutability = "MUTABLE"
+    scan_on_push         = true
+    encryption_type      = "KMS"
+  },
+  {
+    name                 = "api-backend"
+    image_tag_mutability = "MUTABLE"
+    scan_on_push         = true
+    encryption_type      = "KMS"
+  }
+]
+
+# ECR Lifecycle
+ecr_lifecycle_policy = {
+  untagged_days = 7
+  tagged_count  = 30
+}
+
+# Inspector Settings
+enable_inspector       = true
+inspector_resource_types = ["ECR"]
+
+# Lambda Configuration
+lambda_runtime     = "python3.11"
+lambda_timeout     = 60
+lambda_memory_size = 512
+
+# DynamoDB Configuration
+dynamodb_billing_mode            = "PAY_PER_REQUEST"
+dynamodb_point_in_time_recovery = true
+
+# Notification Settings (Update these!)
+alert_email        = ""  # Add your email for alerts
+slack_webhook_url  = ""  # Add Slack webhook URL (optional)
+
+# Security Policy
+vulnerability_severity_threshold = "HIGH"
+block_on_critical                = true
+block_on_high                    = false
+
+# Network Configuration
+create_vpc_endpoints = false  # Set to true for production
+vpc_id               = ""     # Leave empty to use default VPC
+subnet_ids           = []     # Leave empty to use default subnets
+
+# Monitoring
+log_retention_days         = 7  # Lower retention for dev
+enable_detailed_monitoring = false
+
+# Compliance
+compliance_frameworks = ["CIS"]
+
+# Cost Optimization (disabled for dev)
+enable_cross_region_replication = false
+replication_region              = "us-west-2"
+
+# Tags
+tags = {
+  Environment = "dev"
+  Project     = "container-scanning"
+  ManagedBy   = "terraform"
+  Team        = "devops"
+  CostCenter  = "engineering"
+}
